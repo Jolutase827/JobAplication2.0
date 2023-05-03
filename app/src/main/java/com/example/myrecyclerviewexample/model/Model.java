@@ -37,4 +37,11 @@ public class Model {
         }
         return oficios;
     }
+    public int insertUser(Usuario usuario){
+        MysqlDB mysqlDB = new MysqlDB();
+        return mysqlDB.addUser(usuario);
+    }
+    public void addUser(Usuario usuario){
+        usuarios.add(new Usuario(usuarios.get(usuarios.size()).getImagen()+1,usuario.getNombre(),usuario.getApellidos(),usuario.getOficio()));
+    }
 }

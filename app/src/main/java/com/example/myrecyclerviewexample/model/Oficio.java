@@ -1,6 +1,8 @@
 package com.example.myrecyclerviewexample.model;
 
-public class Oficio {
+import java.io.Serializable;
+
+public class Oficio implements Serializable {
     private int idOficio;
     private String descripcion;
     public Oficio(int idOficio, String descripcion) {
@@ -22,5 +24,10 @@ public class Oficio {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    @Override
+    public String toString() {
+        return  descripcion;
     }
 }

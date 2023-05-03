@@ -1,5 +1,7 @@
 package com.example.myrecyclerviewexample.model;
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,7 +19,7 @@ public class MysqlDB {
             throw new RuntimeException(e);
         }
 
-        return DriverManager.getConnection("jdbc:mysql://10.13.1.1:3306/java","jalonso","1111");
+        return DriverManager.getConnection("jdbc:mysql://10.13.0.2:3306/jobAplication","jose","1234");
     }
 
     public List<Usuario> getAllUsers(){
@@ -33,7 +35,7 @@ public class MysqlDB {
                 id=rs.getInt("idUsuario");
                 nombre = rs.getString("nombre");
                 apellidos= rs.getString("apellidos");
-                oficio = rs.getInt("Oficio_idOficio");
+                oficio = rs.getInt("idOficio");
                 usuarios.add(new Usuario(id,nombre,apellidos,oficio));
             }
         } catch (SQLException e) {
@@ -63,5 +65,15 @@ public class MysqlDB {
             e.printStackTrace();
         }
         return oficios;
+    }
+
+    public int addUser(Usuario usuario){
+
+        try(Connection c = getConnection();
+            Statement stmt = c.createStatement();){
+            return stmt.executeUpdate("INSERT INTO Usuario(nombre,apellidos,idOficio) VALUES('"+usuario.getNombre()+"','"+usuario.getApellidos()+"',"+usuario.getOficio()+")");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
