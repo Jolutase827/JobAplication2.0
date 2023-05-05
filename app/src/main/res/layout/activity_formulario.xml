@@ -34,6 +34,18 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
+        android:id="@+id/actualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:text="ACTUALIZAR"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/botonCancelar"
+        app:layout_constraintHorizontal_bias="0.822"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <Button
         android:id="@+id/botonCancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

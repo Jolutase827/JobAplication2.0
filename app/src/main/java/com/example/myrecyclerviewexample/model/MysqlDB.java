@@ -76,4 +76,21 @@ public class MysqlDB {
             throw new RuntimeException(e);
         }
     }
+
+    public int updateUser(Usuario u)  {
+        try (Connection c = getConnection();
+            Statement statement = c.createStatement();){
+            return statement.executeUpdate("UPDATE Usuario SET  nombre ='"+u.getNombre()+"', apellidos = '"+u.getApellidos()+"',idOficio = "+u.getOficio()+" WHERE idUsuario = "+u.getImagen());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int deleteUser(Usuario u){
+        try(Connection c = getConnection();
+            Statement stmt = c.createStatement();){
+            return stmt.executeUpdate("DELETE FROM Usuario WHERE idUsuario ="+u.getImagen());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
