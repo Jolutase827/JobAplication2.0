@@ -42,9 +42,17 @@ public class Model {
 
     public int insertUser(Usuario usuario) {
         MysqlDB mysqlDB = new MysqlDB();
-        usuario.setImagen(usuarios.size());
+        int tablas = mysqlDB.addUser(usuario);
         usuarios.add(usuario);
-        return mysqlDB.addUser(usuario);
+        return tablas;
+    }
+
+    public int undoDelete(Usuario u){
+        MysqlDB mysqlDB = new MysqlDB();
+        int tablas = mysqlDB.addWithIdUser(u);
+        usuarios.add(u);
+        usuarios.sort( (u1,u2) -> u1.getImagen()-u2.getImagen());
+        return tablas;
     }
 
     public int updateUser(Usuario u){

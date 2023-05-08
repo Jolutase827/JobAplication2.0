@@ -68,13 +68,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         Model.getInstance().delecteUser(u);
                     }
 
+                    @SuppressLint("ShowToast")
                     @Override
                     public void doInUI() {
                         hideProgress();
                         myRecyclerViewAdapter.notifyItemRemoved(position);
-                        Toast.makeText(viewHolder.itemView.getContext(), "Usuario "+u.getNombre()+" ha sido eliminado", Toast.LENGTH_LONG).show();
                     }
                 });
+                Snackbar.make(recyclerView, "Deleted " + u.getNombre(), Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                showProgress();
+                                executeCall(new CallInterface() {
+                                    @Override
+                                    public void doInBackground() {
+                                        Model.getInstance().undoDelete(u);
+                                    }
+
+                                    @Override
+                                    public void doInUI() {
+                                        hideProgress();
+                                        myRecyclerViewAdapter.notifyItemInserted(position);
+                                    }
+                                });
+
+                            }
+                        })
+                        .show();
+
+
 
             }
         });

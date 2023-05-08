@@ -9,9 +9,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,6 +32,8 @@ public class Formulario extends BaseActivity {
     public static enum Modo {
         ACTUALIZAR,ANYADIR
     }
+
+    private ImageButton image;
     private Usuario u;
     private EditText nombre,apellido;
     private Spinner spinner;
@@ -46,6 +51,7 @@ public class Formulario extends BaseActivity {
         aceptar = findViewById(R.id.buttonAceptar);
         cancelar = findViewById(R.id.botonCancelar);
         actualizar = findViewById(R.id.actualizar);
+        image = findViewById(R.id.imagen);
 
 
         if (m.equals(Modo.ACTUALIZAR)){
@@ -63,14 +69,47 @@ public class Formulario extends BaseActivity {
 
         spinner.setAdapter(adapterOficio);
 
+//        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Oficio oficio = (Oficio) adapterView.getItemAtPosition(i);
+//                switch (oficio.getIdOficio()){
+//                    case 1 : image.setImageResource(R.mipmap.ic_1_foreground);
+//                        break;
+//                    case 2 : image.setImageResource(R.mipmap.ic_2_foreground);
+//                        break;
+//                    case 3 : image.setImageResource(R.mipmap.ic_3_foreground);
+//                        break;
+//                    case 4 : image.setImageResource(R.mipmap.ic_4_foreground);
+//                        break;
+//                    case 5 : image.setImageResource(R.mipmap.ic_5_foreground);
+//                        break;
+//                    case 6 : image.setImageResource(R.mipmap.ic_6_foreground);
+//                        break;
+//                    case 7 : image.setImageResource(R.mipmap.ic_7_foreground);
+//                        break;
+//                    case 8 : image.setImageResource(R.mipmap.ic_8_foreground);
+//                        break;
+//                    case 9 : image.setImageResource(R.mipmap.ic_9_foreground);
+//                        break;
+//                    case 10 : image.setImageResource(R.mipmap.ic_10_foreground);
+//                        break;
+//                    case 11 : image.setImageResource(R.mipmap.ic_11_foreground);
+//                        break;
+//                    case 12 : image.setImageResource(R.mipmap.ic_12_foreground);
+//                        break;
+//                }
+//            }
+//        });
+
         aceptar.setOnClickListener(v->{
             if (nombre.getText().length()>0||apellido.getText().length()>0) {
                 showProgress();
                 executeCall(new CallInterface() {
                     @Override
                     public void doInBackground() {
-                        Usuario usuario = new Usuario(0, nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
-                        Model.getInstance().insertUser(usuario);
+                        u = new Usuario(0, nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
+                        Model.getInstance().insertUser(u);
                     }
 
                     @Override

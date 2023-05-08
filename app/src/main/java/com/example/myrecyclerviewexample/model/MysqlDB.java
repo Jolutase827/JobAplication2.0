@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -68,10 +69,44 @@ public class MysqlDB {
     }
 
     public int addUser(Usuario usuario){
-
+        String sql = "INSERT INTO Usuario(nombre,apellidos,idOficio) VALUES(?,?,?)";
         try(Connection c = getConnection();
-            Statement stmt = c.createStatement();){
-            return stmt.executeUpdate("INSERT INTO Usuario(nombre,apellidos,idOficio) VALUES('"+usuario.getNombre()+"','"+usuario.getApellidos()+"',"+usuario.getOficio()+")");
+            PreparedStatement ptstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);){
+            int pos =0;
+
+            ptstmt.setString(++pos,usuario.getNombre());
+            ptstmt.setString(++pos,usuario.getApellidos());
+            ptstmt.setInt(++pos,usuario.getOficio());
+
+            if (ptstmt.executeUpdate()==0)
+                throw new SQLException("No se puede insertar");
+
+            try(ResultSet rs = ptstmt.getGeneratedKeys()){
+                if (rs.next()) {
+                    usuario.setImagen(rs.getInt(1));
+                    return 1;
+                }
+                else
+                    throw new SQLException("No se puede obtener el id asignado");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int addWithIdUser(Usuario usuario){
+        String sql = "INSERT INTO Usuario(idUsuario,nombre,apellidos,idOficio) VALUES(?,?,?,?)";
+        try(Connection c = getConnection();
+            PreparedStatement ptstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);){
+            int pos =0;
+
+            ptstmt.setInt(++pos,usuario.getImagen());
+            ptstmt.setString(++pos,usuario.getNombre());
+            ptstmt.setString(++pos,usuario.getApellidos());
+            ptstmt.setInt(++pos,usuario.getOficio());
+
+            return ptstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -86,9 +121,18 @@ public class MysqlDB {
         }
     }
     public int deleteUser(Usuario u){
+        String sql = "DELETE FROM Usuario WHERE idUsuario = ?";
         try(Connection c = getConnection();
-            Statement stmt = c.createStatement();){
-            return stmt.executeUpdate("DELETE FROM Usuario WHERE idUsuario ="+u.getImagen());
+            PreparedStatement ptstmt = c.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);){
+
+            int pos =0;
+
+            ptstmt.setInt(++pos,u.getImagen());
+
+            return ptstmt.executeUpdate();
+
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
