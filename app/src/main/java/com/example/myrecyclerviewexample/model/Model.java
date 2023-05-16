@@ -1,9 +1,7 @@
 package com.example.myrecyclerviewexample.model;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Model {
 
@@ -51,19 +49,19 @@ public class Model {
         MysqlDB mysqlDB = new MysqlDB();
         int tablas = mysqlDB.addWithIdUser(u);
         usuarios.add(u);
-        usuarios.sort( (u1,u2) -> u1.getImagen()-u2.getImagen());
+        usuarios.sort( (u1,u2) -> u1.getIdUsuario()-u2.getIdUsuario());
         return tablas;
     }
 
     public int updateUser(Usuario u){
         MysqlDB mysqlDB = new MysqlDB();
         Usuario usuarioLista=  usuarios.stream()
-                .filter(usuario -> usuario.getImagen() == u.getImagen())
+                .filter(usuario -> usuario.getIdUsuario() == u.getIdUsuario())
                 .findFirst()
                 .get();
         usuarioLista.setNombre(u.getNombre());
         usuarioLista.setApellidos(u.getApellidos());
-        usuarioLista.setOficio(u.getOficio());
+        usuarioLista.setIdOficio(u.getIdOficio());
         return mysqlDB.updateUser(u);
 
     }

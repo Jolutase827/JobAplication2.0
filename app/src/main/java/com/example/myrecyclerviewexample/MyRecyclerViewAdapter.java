@@ -46,12 +46,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.title.setText(u.getApellidos().concat(", ").concat(u.getNombre()));
         holder.subtitle.setText(
                 oficios.stream()
-                        .filter(o->o.getIdOficio()==u.getOficio())
+                        .filter(o->o.getIdOficio()==u.getIdOficio())
                         .findFirst()
                         .get()
                         .getDescripcion()
         );
-        switch (u.getOficio()){
+        switch (u.getIdOficio()){
             case 1 : holder.image.setImageResource(R.mipmap.ic_1_foreground);
             break;
             case 2 : holder.image.setImageResource(R.mipmap.ic_2_foreground);

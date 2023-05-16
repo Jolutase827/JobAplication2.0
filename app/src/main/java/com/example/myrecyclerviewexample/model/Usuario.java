@@ -5,20 +5,20 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
-    private int imagen;
+    private Integer idUsuario;
     private String nombre;
     private String apellidos;
-    private int oficio;
+    private int idOficio;
 
-    public Usuario(int imagen, String nombre, String apellidos, int oficio) {
-        this.imagen = imagen;
+    public Usuario(Integer imagen, String nombre, String apellidos, int oficio) {
+        this.idUsuario = imagen;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.oficio = oficio;
+        this.idOficio = oficio;
     }
 
-    public int getImagen() {
-        return imagen;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
     public String getNombre() {
@@ -29,12 +29,12 @@ public class Usuario implements Serializable {
         return apellidos;
     }
 
-    public int getOficio() {
-        return oficio;
+    public int getIdOficio() {
+        return idOficio;
     }
 
-    public void setImagen(int imagen) {
-        this.imagen = imagen;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public void setNombre(String nombre) {
@@ -45,20 +45,20 @@ public class Usuario implements Serializable {
         this.apellidos = apellidos;
     }
 
-    public void setOficio(int oficio) {
-        this.oficio = oficio;
+    public void setIdOficio(int idOficio) {
+        this.idOficio = idOficio;
     }
 
     @Override
     public int hashCode() {
-        return imagen;
+        return idUsuario;
     }
 
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof Usuario) {
             Usuario u = (Usuario) obj;
-            return u.getImagen()==imagen;
+            return u.getIdUsuario()== idUsuario;
         }else
             return false;
     }

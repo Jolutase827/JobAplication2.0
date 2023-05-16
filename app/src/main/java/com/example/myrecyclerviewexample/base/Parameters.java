@@ -3,7 +3,7 @@ package com.example.myrecyclerviewexample.base;
 public class Parameters {
 
 
-    public final static String API = "11beed541e7a0fd48076a05030a042ea";
+    public final static String API = "10.13.0.2:8080/api";
 
     public final static String LANG = "es";
     public final static String UNITS = "metric";

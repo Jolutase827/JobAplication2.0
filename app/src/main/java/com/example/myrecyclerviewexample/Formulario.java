@@ -1,20 +1,15 @@
 package com.example.myrecyclerviewexample;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,8 +18,6 @@ import com.example.myrecyclerviewexample.base.CallInterface;
 import com.example.myrecyclerviewexample.model.Model;
 import com.example.myrecyclerviewexample.model.Oficio;
 import com.example.myrecyclerviewexample.model.Usuario;
-
-import java.io.Serializable;
 
 public class Formulario extends BaseActivity {
 
@@ -69,38 +62,57 @@ public class Formulario extends BaseActivity {
 
         spinner.setAdapter(adapterOficio);
 
-//        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Oficio oficio = (Oficio) adapterView.getItemAtPosition(i);
-//                switch (oficio.getIdOficio()){
-//                    case 1 : image.setImageResource(R.mipmap.ic_1_foreground);
-//                        break;
-//                    case 2 : image.setImageResource(R.mipmap.ic_2_foreground);
-//                        break;
-//                    case 3 : image.setImageResource(R.mipmap.ic_3_foreground);
-//                        break;
-//                    case 4 : image.setImageResource(R.mipmap.ic_4_foreground);
-//                        break;
-//                    case 5 : image.setImageResource(R.mipmap.ic_5_foreground);
-//                        break;
-//                    case 6 : image.setImageResource(R.mipmap.ic_6_foreground);
-//                        break;
-//                    case 7 : image.setImageResource(R.mipmap.ic_7_foreground);
-//                        break;
-//                    case 8 : image.setImageResource(R.mipmap.ic_8_foreground);
-//                        break;
-//                    case 9 : image.setImageResource(R.mipmap.ic_9_foreground);
-//                        break;
-//                    case 10 : image.setImageResource(R.mipmap.ic_10_foreground);
-//                        break;
-//                    case 11 : image.setImageResource(R.mipmap.ic_11_foreground);
-//                        break;
-//                    case 12 : image.setImageResource(R.mipmap.ic_12_foreground);
-//                        break;
-//                }
-//            }
-//        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Oficio oficio = (Oficio) adapterOficio.getItem(i);
+                switch (oficio.getIdOficio()) {
+                    case 1:
+                        image.setImageResource(R.mipmap.ic_1_foreground);
+                        break;
+                    case 2:
+                        image.setImageResource(R.mipmap.ic_2_foreground);
+                        break;
+                    case 3:
+                        image.setImageResource(R.mipmap.ic_3_foreground);
+                        break;
+                    case 4:
+                        image.setImageResource(R.mipmap.ic_4_foreground);
+                        break;
+                    case 5:
+                        image.setImageResource(R.mipmap.ic_5_foreground);
+                        break;
+                    case 6:
+                        image.setImageResource(R.mipmap.ic_6_foreground);
+                        break;
+                    case 7:
+                        image.setImageResource(R.mipmap.ic_7_foreground);
+                        break;
+                    case 8:
+                        image.setImageResource(R.mipmap.ic_8_foreground);
+                        break;
+                    case 9:
+                        image.setImageResource(R.mipmap.ic_9_foreground);
+                        break;
+                    case 10:
+                        image.setImageResource(R.mipmap.ic_10_foreground);
+                        break;
+                    case 11:
+                        image.setImageResource(R.mipmap.ic_11_foreground);
+                        break;
+                    case 12:
+                        image.setImageResource(R.mipmap.ic_12_foreground);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         aceptar.setOnClickListener(v->{
             if (nombre.getText().length()>0||apellido.getText().length()>0) {
@@ -116,7 +128,7 @@ public class Formulario extends BaseActivity {
                     public void doInUI() {
                         hideProgress();
                         Intent intent = new Intent();
-                        Usuario usuario = new Usuario(u.getImagen(), nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
+                        Usuario usuario = new Usuario(u.getIdUsuario(), nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
                         intent.putExtra("usuario", usuario);
                         setResult(RESULT_OK,intent);
                         finish();
@@ -137,7 +149,7 @@ public class Formulario extends BaseActivity {
                 executeCall(new CallInterface() {
                     @Override
                     public void doInBackground() {
-                        Usuario usuario = new Usuario(u.getImagen(), nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
+                        Usuario usuario = new Usuario(u.getIdUsuario(), nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
                         Model.getInstance().updateUser(usuario);
                     }
 
