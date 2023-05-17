@@ -51,6 +51,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         .get()
                         .getDescripcion()
         );
+
         switch (u.getIdOficio()){
             case 1 : holder.image.setImageResource(R.mipmap.ic_1_foreground);
             break;
