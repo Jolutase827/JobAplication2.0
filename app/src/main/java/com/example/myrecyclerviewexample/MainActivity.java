@@ -104,9 +104,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-
-
-        @SuppressLint("NotifyDataSetChanged") ActivityResultLauncher<Intent> resultLauncherAddUser = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(), rsult->{
+       ActivityResultLauncher<Intent> resultLauncherAddUser = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(), rsult->{
             if (rsult.getResultCode()==RESULT_OK){
                 Intent data = rsult.getData();
                 Usuario usuario = (Usuario) data.getExtras().getSerializable("usuario");
@@ -128,7 +126,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    @SuppressLint("NotifyDataSetChanged") public ActivityResultLauncher<Intent> resultLauncherUpdateUser = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(), rsult->{
+
+    public ActivityResultLauncher<Intent> resultLauncherUpdateUser = registerForActivityResult( new ActivityResultContracts.StartActivityForResult(), rsult->{
         if (rsult.getResultCode()==RESULT_OK){
             Intent data = rsult.getData();
             Usuario usuario = (Usuario) data.getExtras().getSerializable("usuario");

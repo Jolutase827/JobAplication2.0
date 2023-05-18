@@ -1,5 +1,6 @@
 package com.example.myrecyclerviewexample;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.annotation.SuppressLint;
@@ -15,9 +16,12 @@ import android.widget.Toast;
 
 import com.example.myrecyclerviewexample.base.BaseActivity;
 import com.example.myrecyclerviewexample.base.CallInterface;
+import com.example.myrecyclerviewexample.model.Imagen;
 import com.example.myrecyclerviewexample.model.Model;
 import com.example.myrecyclerviewexample.model.Oficio;
 import com.example.myrecyclerviewexample.model.Usuario;
+
+import java.nio.charset.StandardCharsets;
 
 public class Formulario extends BaseActivity {
 
@@ -31,6 +35,7 @@ public class Formulario extends BaseActivity {
     private EditText nombre,apellido;
     private Spinner spinner;
     private Button aceptar, cancelar,actualizar;
+    private Imagen imagen;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -67,44 +72,18 @@ public class Formulario extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Oficio oficio = (Oficio) adapterOficio.getItem(i);
-                switch (oficio.getIdOficio()) {
-                    case 1:
-                        image.setImageResource(R.mipmap.ic_1_foreground);
-                        break;
-                    case 2:
-                        image.setImageResource(R.mipmap.ic_2_foreground);
-                        break;
-                    case 3:
-                        image.setImageResource(R.mipmap.ic_3_foreground);
-                        break;
-                    case 4:
-                        image.setImageResource(R.mipmap.ic_4_foreground);
-                        break;
-                    case 5:
-                        image.setImageResource(R.mipmap.ic_5_foreground);
-                        break;
-                    case 6:
-                        image.setImageResource(R.mipmap.ic_6_foreground);
-                        break;
-                    case 7:
-                        image.setImageResource(R.mipmap.ic_7_foreground);
-                        break;
-                    case 8:
-                        image.setImageResource(R.mipmap.ic_8_foreground);
-                        break;
-                    case 9:
-                        image.setImageResource(R.mipmap.ic_9_foreground);
-                        break;
-                    case 10:
-                        image.setImageResource(R.mipmap.ic_10_foreground);
-                        break;
-                    case 11:
-                        image.setImageResource(R.mipmap.ic_11_foreground);
-                        break;
-                    case 12:
-                        image.setImageResource(R.mipmap.ic_12_foreground);
-                        break;
-                }
+                executeCall(new CallInterface() {
+                    @Override
+                    public void doInBackground() {
+                        imagen = Model.getInstance().getImagen(oficio.getIdOficio());
+                    }
+
+                    @Override
+                    public void doInUI() {
+                        byte[] bytes = imagen.getImage().getBytes(StandardCharsets.ISO_8859_1);
+                        image.setImageBitmap(BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                    }
+                });
             }
 
             @Override
@@ -120,7 +99,7 @@ public class Formulario extends BaseActivity {
                 executeCall(new CallInterface() {
                     @Override
                     public void doInBackground() {
-                        u = new Usuario(0, nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
+                        u = new Usuario(null, nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
                         Model.getInstance().insertUser(u);
                     }
 
@@ -157,7 +136,7 @@ public class Formulario extends BaseActivity {
                     public void doInUI() {
                         hideProgress();
                         Intent intent = new Intent();
-                        Usuario usuario = new Usuario(0, nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
+                        Usuario usuario = new Usuario(u.getIdUsuario(), nombre.getText().toString(), apellido.getText().toString(), adapterOficio.getItem(spinner.getSelectedItemPosition()).getIdOficio());
                         intent.putExtra("usuario", usuario);
                         setResult(RESULT_OK,intent);
                         finish();

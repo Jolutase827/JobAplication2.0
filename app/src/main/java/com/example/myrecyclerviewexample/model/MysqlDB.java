@@ -13,26 +13,29 @@ public class MysqlDB {
 
 
     public List<Usuario> getAllUsers(){
-         return Connector.getConector().getAsList(Usuario.class,"10.13.0.2:8080/api/usuarios");
+         return Connector.getConector().getAsList(Usuario.class,"usuarios");
     }
 
     public List<Oficio> getAllOficios() {
-        return Connector.getConector().getAsList(Oficio.class,"10.13.0.2:8080/api/oficios");
+        return Connector.getConector().getAsList(Oficio.class,"oficios");
     }
 
     public int addUser(Usuario usuario){
         usuario.setIdUsuario(null);
-        return (Connector.getConector().post(Usuario.class,usuario,"10.13.0.2:8080/api/usuarios")!=null)?1:0;
+        return (Connector.getConector().post(Usuario.class,usuario,"usuarios")!=null)?1:0;
     }
 
+    public Imagen getImage(int id){
+        return (Connector.getConector().get(Imagen.class,"oficios/"+id+"/image"));
+    }
     public int addWithIdUser(Usuario usuario){
-        return (Connector.getConector().post(Usuario.class,usuario,"10.13.0.2:8080/api/usuarios")!=null)?1:0;
+        return (Connector.getConector().post(Usuario.class,usuario,"usuarios")!=null)?1:0;
     }
 
-    public int updateUser(Usuario u)  {
-        return (Connector.getConector().put(Usuario.class,u,"10.13.0.2:8080/api/usuarios")!=null)?1:0;
+    public Usuario updateUser(Usuario u)  {
+        return (Connector.getConector().put(Usuario.class,u,"usuarios"));
     }
     public int deleteUser(Usuario u){
-        return (Connector.getConector().delete(Usuario.class,"10.13.0.2:8080/api/usuarios/"+u.getIdUsuario())!=null)?1:0;
+        return (Connector.getConector().delete(Usuario.class,"usuarios/"+u.getIdUsuario())!=null)?1:0;
     }
 }

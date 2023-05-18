@@ -1,6 +1,10 @@
 package com.example.myrecyclerviewexample;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +14,41 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myrecyclerviewexample.API.CallMethods;
+import com.example.myrecyclerviewexample.base.BaseActivity;
+import com.example.myrecyclerviewexample.base.CallInterface;
+import com.example.myrecyclerviewexample.model.Imagen;
 import com.example.myrecyclerviewexample.model.Model;
 import com.example.myrecyclerviewexample.model.Oficio;
 import com.example.myrecyclerviewexample.model.Usuario;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private Handler handler = new Handler(Looper.getMainLooper());
     private List<Usuario> list;
     private final LayoutInflater inflater;
     private View.OnClickListener onClickListener;
+    private Imagen imagen;
 
     public MyRecyclerViewAdapter(Context context){
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         list = new ArrayList<>();
+    }
+
+    private void executeCall(CallInterface callInterface){
+        executor.execute(() -> {
+            callInterface.doInBackground();
+            handler.post(() -> {
+                callInterface.doInUI();
+            });
+        });
     }
 
     @NonNull
@@ -52,38 +75,28 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         .getDescripcion()
         );
 
-        switch (u.getIdOficio()){
-            case 1 : holder.image.setImageResource(R.mipmap.ic_1_foreground);
-            break;
-            case 2 : holder.image.setImageResource(R.mipmap.ic_2_foreground);
-                break;
-            case 3 : holder.image.setImageResource(R.mipmap.ic_3_foreground);
-                break;
-            case 4 : holder.image.setImageResource(R.mipmap.ic_4_foreground);
-                break;
-            case 5 : holder.image.setImageResource(R.mipmap.ic_5_foreground);
-                break;
-            case 6 : holder.image.setImageResource(R.mipmap.ic_6_foreground);
-                break;
-            case 7 : holder.image.setImageResource(R.mipmap.ic_7_foreground);
-                break;
-            case 8 : holder.image.setImageResource(R.mipmap.ic_8_foreground);
-                break;
-            case 9 : holder.image.setImageResource(R.mipmap.ic_9_foreground);
-                break;
-            case 10 : holder.image.setImageResource(R.mipmap.ic_10_foreground);
-                break;
-            case 11 : holder.image.setImageResource(R.mipmap.ic_11_foreground);
-                break;
-            case 12 : holder.image.setImageResource(R.mipmap.ic_12_foreground);
-                break;
-        }
+        executeCall(new CallInterface() {
+            @Override
+            public void doInBackground() {
+                imagen = Model.getInstance().getImagen(u.getIdOficio());
+            }
+
+            @Override
+            public void doInUI() {
+                byte[] bytes = imagen.getImage().getBytes(StandardCharsets.ISO_8859_1);
+                holder.image.setImageBitmap(BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+            }
+        });
+
+
     }
 
     @Override
     public int getItemCount() {
         return list.size();
     }
+
+
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;

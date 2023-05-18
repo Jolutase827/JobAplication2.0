@@ -9,9 +9,11 @@ public class Oficio implements Serializable {
     private byte[] image;
 
     private String urlimagen;
-    public Oficio(int idOficio, String descripcion) {
+    public Oficio(int idOficio, String descripcion,byte[] image, String urlimagen) {
         this.idOficio=idOficio;
         this.descripcion=descripcion;
+        this.image = image;
+        this.urlimagen = urlimagen;
     }
 
     public int getIdOficio() {
