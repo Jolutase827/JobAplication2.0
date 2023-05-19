@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
+
 public class Usuario implements Serializable {
     private Integer idUsuario;
     private String nombre;
@@ -61,5 +62,15 @@ public class Usuario implements Serializable {
             return u.getIdUsuario()== idUsuario;
         }else
             return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", idOficio=" + idOficio +
+                '}';
     }
 }

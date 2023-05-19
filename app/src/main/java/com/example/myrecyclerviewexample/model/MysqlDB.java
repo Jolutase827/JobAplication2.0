@@ -20,9 +20,9 @@ public class MysqlDB {
         return Connector.getConector().getAsList(Oficio.class,"oficios");
     }
 
-    public int addUser(Usuario usuario){
+    public Usuario addUser(Usuario usuario){
         usuario.setIdUsuario(null);
-        return (Connector.getConector().post(Usuario.class,usuario,"usuarios")!=null)?1:0;
+        return Connector.getConector().post(Usuario.class,usuario,"usuarios");
     }
 
     public Imagen getImage(int id){

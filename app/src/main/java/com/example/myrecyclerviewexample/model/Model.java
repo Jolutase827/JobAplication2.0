@@ -2,6 +2,8 @@ package com.example.myrecyclerviewexample.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class Model {
 
@@ -46,9 +48,9 @@ public class Model {
 
     public int insertUser(Usuario usuario) {
         MysqlDB mysqlDB = new MysqlDB();
-        int tablas = mysqlDB.addUser(usuario);
-        usuarios.add(usuario);
-        return tablas;
+        Usuario u = mysqlDB.addUser(usuario);
+        usuarios.add(u);
+        return u!=null?1:0;
     }
 
     public int undoDelete(Usuario u){
@@ -61,14 +63,11 @@ public class Model {
 
     public int updateUser(Usuario u){
         MysqlDB mysqlDB = new MysqlDB();
-        Usuario usuarioLista=  usuarios.stream()
-                .filter(usuario -> usuario.getIdUsuario() == u.getIdUsuario())
-                .findFirst()
-                .get();
-        usuarioLista.setNombre(u.getNombre());
-        usuarioLista.setApellidos(u.getApellidos());
-        usuarioLista.setIdOficio(u.getIdOficio());
-        return mysqlDB.updateUser(u)==null?1:0;
+        Usuario  usuario = usuarios.stream().filter(usuario1 -> Objects.equals(usuario1.getIdUsuario(), u.getIdUsuario())).findFirst().get();
+        usuario.setNombre(u.getNombre());
+        usuario.setApellidos(u.getApellidos());
+        usuario.setIdOficio(u.getIdOficio());
+        return mysqlDB.updateUser(u)!=null?1:0;
 
     }
 
