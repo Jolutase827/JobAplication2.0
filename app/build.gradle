@@ -37,6 +37,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'mysql:mysql-connector-java:5.1.13'
+    //Libreria para las preferencias
+    implementation 'androidx.preference:preference:1.2.0'
     // Libreria para la manipulacion de json
     implementation 'com.google.code.gson:gson:2.8.8'
     // Libreria para las llamadas a la API

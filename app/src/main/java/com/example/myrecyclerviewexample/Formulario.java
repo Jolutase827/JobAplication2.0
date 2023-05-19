@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.example.myrecyclerviewexample.base.BaseActivity;
 import com.example.myrecyclerviewexample.base.CallInterface;
@@ -156,5 +160,23 @@ public class Formulario extends BaseActivity {
             finish();
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.exit: finish();
+            case R.id.settings:
+                Intent i = new Intent(this, PreferenceActivity.class);
+                startActivity(i);
+                return true;
+            default:return super.onOptionsItemSelected(item);
+        }
     }
 }

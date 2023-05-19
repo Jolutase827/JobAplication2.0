@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="RUTA DE ACCESO A LA API">
+
+    </PreferenceCategory>
+    <EditTextPreference
+        android:defaultValue="10.13.0.1"
+        android:key="edit_text_preference_1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="IP" />
+    <EditTextPreference
+        android:defaultValue="8080"
+        android:key="edit_text_preference_2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Port" />
+    <EditTextPreference
+        android:defaultValue="api/"
+        android:key="edit_text_preference_3"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Prefijo" />
+    <PreferenceCategory android:title="MODO DESCARGA DE IMAGENES">
+
+    </PreferenceCategory>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="url"
+        android:title="Base de datos o URL" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="pathimage"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Path de imagenes" />
+</PreferenceScreen>
