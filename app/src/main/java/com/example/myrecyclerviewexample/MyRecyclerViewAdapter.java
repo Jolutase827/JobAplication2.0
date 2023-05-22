@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myrecyclerviewexample.API.CallMethods;
 import com.example.myrecyclerviewexample.base.BaseActivity;
 import com.example.myrecyclerviewexample.base.CallInterface;
+import com.example.myrecyclerviewexample.base.ImageDownloader;
 import com.example.myrecyclerviewexample.model.Imagen;
 import com.example.myrecyclerviewexample.model.Model;
+import com.example.myrecyclerviewexample.model.MyPreferenceManager;
 import com.example.myrecyclerviewexample.model.Oficio;
 import com.example.myrecyclerviewexample.model.Usuario;
 
@@ -78,13 +80,20 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         executeCall(new CallInterface() {
             @Override
             public void doInBackground() {
-                imagen = Model.getInstance().getImagen(u.getIdOficio());
+                if (MyPreferenceManager.getInstance(null).getImageOption()) {
+                    imagen = Model.getInstance().getImagen(u.getIdOficio());
+                }
+
             }
 
             @Override
             public void doInUI() {
-                byte[] bytes = imagen.getImage().getBytes(StandardCharsets.ISO_8859_1);
-                holder.image.setImageBitmap(BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                if (MyPreferenceManager.getInstance(null).getImageOption()) {
+                    byte[] bytes = imagen.getImage().getBytes(StandardCharsets.ISO_8859_1);
+                    holder.image.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                }else {
+                    ImageDownloader.downloadImage(MyPreferenceManager.getInstance(null).getPathImagenes() + Model.getInstance().getOficio(u.getIdOficio()).getUrlimagen(), holder.image);
+                }
             }
         });
 

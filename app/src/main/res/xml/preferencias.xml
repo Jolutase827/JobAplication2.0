@@ -6,19 +6,19 @@
     </PreferenceCategory>
     <EditTextPreference
         android:defaultValue="10.13.0.1"
-        android:key="edit_text_preference_1"
+        android:key="ip"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="IP" />
     <EditTextPreference
         android:defaultValue="8080"
-        android:key="edit_text_preference_2"
+        android:key="puerto"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Port" />
     <EditTextPreference
         android:defaultValue="api/"
-        android:key="edit_text_preference_3"
+        android:key="prefijo"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Prefijo" />
@@ -28,7 +28,7 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="url"
-        android:title="Base de datos o URL" />
+        android:title="URL" />
     <EditTextPreference
         android:defaultValue="Default value"
         android:key="pathimage"

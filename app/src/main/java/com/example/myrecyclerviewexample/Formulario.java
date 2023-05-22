@@ -20,8 +20,10 @@ import androidx.annotation.NonNull;
 
 import com.example.myrecyclerviewexample.base.BaseActivity;
 import com.example.myrecyclerviewexample.base.CallInterface;
+import com.example.myrecyclerviewexample.base.ImageDownloader;
 import com.example.myrecyclerviewexample.model.Imagen;
 import com.example.myrecyclerviewexample.model.Model;
+import com.example.myrecyclerviewexample.model.MyPreferenceManager;
 import com.example.myrecyclerviewexample.model.Oficio;
 import com.example.myrecyclerviewexample.model.Usuario;
 
@@ -45,6 +47,7 @@ public class Formulario extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyPreferenceManager.getInstance(this);
         setContentView(R.layout.activity_formulario);
         nombre = findViewById(R.id.nombre);
         apellido = findViewById(R.id.apellido);
@@ -79,13 +82,18 @@ public class Formulario extends BaseActivity {
                 executeCall(new CallInterface() {
                     @Override
                     public void doInBackground() {
-                        imagen = Model.getInstance().getImagen(oficio.getIdOficio());
+                        if (MyPreferenceManager.getInstance(getApplicationContext()).getImageOption())
+                            imagen = Model.getInstance().getImagen(oficio.getIdOficio());
                     }
 
                     @Override
                     public void doInUI() {
-                        byte[] bytes = imagen.getImage().getBytes(StandardCharsets.ISO_8859_1);
-                        image.setImageBitmap(BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                        if (MyPreferenceManager.getInstance(getApplicationContext()).getImageOption()) {
+                            byte[] bytes = imagen.getImage().getBytes(StandardCharsets.ISO_8859_1);
+                            image.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                        }else {
+                            ImageDownloader.downloadImage(MyPreferenceManager.getInstance(getApplicationContext()).getPathImagenes()+oficio.getUrlimagen(),image);
+                        }
                     }
                 });
             }

@@ -1,8 +1,11 @@
 package com.example.myrecyclerviewexample.base;
+import androidx.preference.PreferenceFragmentCompat;
 
+import com.example.myrecyclerviewexample.PreferenciasFragment;
 public class Parameters {
 
 
+    //"http://"+ pf.getIp() +":"+pf.getPuerto()+"/"+pf.getPrefijo()
     public final static String API = "http://10.13.0.1:8080/api/";
 
     public final static String LANG = "es";

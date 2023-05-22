@@ -8,12 +8,12 @@ public class Oficio implements Serializable {
 
     private byte[] image;
 
-    private String urlimagen;
+    private String url;
     public Oficio(int idOficio, String descripcion,byte[] image, String urlimagen) {
         this.idOficio=idOficio;
         this.descripcion=descripcion;
         this.image = image;
-        this.urlimagen = urlimagen;
+        this.url = urlimagen;
     }
 
     public int getIdOficio() {
@@ -30,6 +30,10 @@ public class Oficio implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getUrlimagen() {
+        return url;
     }
 
     @Override

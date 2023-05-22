@@ -32,12 +32,30 @@ public class Model {
         return usuarios;
     }
 
+    public List<Usuario> getUsuariosLlamada(){
+        MysqlDB mysqlDB = new MysqlDB();
+        usuarios = mysqlDB.getAllUsers();
+        return usuarios;
+    }
+    public Oficio getOficio(int id){
+        Optional<Oficio> optionalOficio = oficios.stream().filter(oficio -> oficio.getIdOficio()==id).findFirst();
+        if (optionalOficio.isPresent()){
+            return optionalOficio.get();
+        }else
+            return null;
+    }
+
 
     public List<Oficio> getOficios() {
         if (oficios.isEmpty()) {
             MysqlDB mysqlDB = new MysqlDB();
             oficios = mysqlDB.getAllOficios();
         }
+        return oficios;
+    }
+    public List<Oficio> getOficiosLlamada() {
+        MysqlDB mysqlDB = new MysqlDB();
+        oficios = mysqlDB.getAllOficios();
         return oficios;
     }
 

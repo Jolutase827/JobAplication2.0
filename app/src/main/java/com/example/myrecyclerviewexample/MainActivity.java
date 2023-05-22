@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,9 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.myrecyclerviewexample.API.Connector;
 import com.example.myrecyclerviewexample.base.BaseActivity;
 import com.example.myrecyclerviewexample.base.CallInterface;
 import com.example.myrecyclerviewexample.model.Model;
+import com.example.myrecyclerviewexample.model.MyPreferenceManager;
 import com.example.myrecyclerviewexample.model.MysqlDB;
 import com.example.myrecyclerviewexample.model.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +33,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private FloatingActionButton anyadirUsuario;
     private RecyclerView recyclerView;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
+    private String urlApi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +41,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         anyadirUsuario = findViewById(R.id.anyadirUsuario);
         recyclerView = findViewById(R.id.recycler);
-
+        MyPreferenceManager.getInstance(this);
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(this);
         myRecyclerViewAdapter.setOnClickListener(this);
         recyclerView.setAdapter(myRecyclerViewAdapter);
-
 
 
 
@@ -170,13 +173,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return super.onCreateOptionsMenu(menu);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(@androidx.annotation.NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.exit: finish();
             case R.id.settings:
+                urlApi = MyPreferenceManager.getInstance(this).getApiUrl();
                 Intent i = new Intent(this, PreferenceActivity.class);
                 startActivity(i);
+                myRecyclerViewAdapter.notifyDataSetChanged();
                 return true;
             default:return super.onOptionsItemSelected(item);
         }
